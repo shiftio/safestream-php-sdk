@@ -1,0 +1,21 @@
+{
+    "name": "safestream/safestream-php-sdk",
+    "description": "PHP SDK for SafeStream: On Demand Video Watermarking",
+    "require-dev": {
+        "phpunit/phpunit": "^4.8"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Mike Delano",
+            "email": "mike@mediasilo.com"
+        }
+    ],
+    "require": {
+        "guzzlehttp/guzzle": "^6.2"
+    },
+    "autoload": {
+        "psr-4": {"SafeStream\\": "src/"}
+    }
+
+}
