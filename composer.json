@@ -8,7 +8,9 @@
     "authors": [
         {
             "name": "Mike Delano",
-            "email": "mike@mediasilo.com"
+            "email": "mike@mediasilo.com",
+            "homepage": "http://safestream.com",
+            "role": "Developer"
         }
     ],
     "require": {
