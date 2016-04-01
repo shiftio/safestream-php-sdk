@@ -1,3 +1,5 @@
+![SafeStream logo](https://www.filepicker.io/api/file/4kub5cbVRLmfteT3vqFK)
+
 ## Installing the SafeStream SDK
 
 The recommended way to install the SDK is through
