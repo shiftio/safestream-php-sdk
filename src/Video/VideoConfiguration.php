@@ -24,52 +24,15 @@
  * SOFTWARE.
  */
 
-namespace SafeStream;
-
-use SafeStream\Video\VideoClient;
-use SafeStream\Watermark\WatermarkClient;
-
-class SafeStreamClientException extends CustomException {}
+namespace SafeStream\Video;
 
 /**
- * Class SafeStreamClient
- * @package SafeStream
+ * SafeStream allows you to override the storage configuration for each video. If you want to store the video and it's watermarked proxies in your own S3 bucket for example, you can apply an s3 storage configuration {@link com.safestream.sdk.api.config.storage.S3StorageConfiguration} to the video.
  *
- * Wraps SafeStream clients, creates a single interface to everything in SafeStream.
- *
+ * Class VideoConfiguration
+ * @package SafeStream\Video
  */
-class SafeStreamClient
+class VideoConfiguration
 {
-    const VERSION = '0.1.0';
-
-    public $args;
-    private $watermark;
-    private $video;
-
-    public function __construct(array $args = [])
-    {
-        if(!isset($args['apiKey'])) {
-            throw new SafeStreamClientException("An API Key is require to create a 
-            SafeStreamClient");
-        }
-
-        $this->args = $args;
-    }
-
-    public function watermark() {
-        if(is_null($this->watermark)) {
-            $this->watermark = new WatermarkClient($this->args);
-        }
-
-        return $this->watermark;
-    }
-
-    public function video() {
-        if(is_null($this->video)) {
-            $this->video = new VideoClient($this->args);
-        }
-
-        return $this->video;
-    }
-
+    public $storageConfiguration;
 }

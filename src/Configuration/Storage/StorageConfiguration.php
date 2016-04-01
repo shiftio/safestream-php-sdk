@@ -24,52 +24,21 @@
  * SOFTWARE.
  */
 
-namespace SafeStream;
-
-use SafeStream\Video\VideoClient;
-use SafeStream\Watermark\WatermarkClient;
-
-class SafeStreamClientException extends CustomException {}
-
-/**
- * Class SafeStreamClient
- * @package SafeStream
- *
- * Wraps SafeStream clients, creates a single interface to everything in SafeStream.
- *
- */
-class SafeStreamClient
+class StorageConfiguration
 {
-    const VERSION = '0.1.0';
+    /**
+     * The type of storage service adapter to use
+     */
+    public $type;
 
-    public $args;
-    private $watermark;
-    private $video;
+    /**
+     * The connection properties required for the storage configuration type
+     */
+    public $properties;
 
-    public function __construct(array $args = [])
+    public function __construct($type, $properties)
     {
-        if(!isset($args['apiKey'])) {
-            throw new SafeStreamClientException("An API Key is require to create a 
-            SafeStreamClient");
-        }
-
-        $this->args = $args;
+        $this->type = $type;
+        $this->properties = $properties;
     }
-
-    public function watermark() {
-        if(is_null($this->watermark)) {
-            $this->watermark = new WatermarkClient($this->args);
-        }
-
-        return $this->watermark;
-    }
-
-    public function video() {
-        if(is_null($this->video)) {
-            $this->video = new VideoClient($this->args);
-        }
-
-        return $this->video;
-    }
-
 }

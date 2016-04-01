@@ -31,9 +31,11 @@ use SafeStream\CustomException;
 use GuzzleHttp;
 
 class SafeStreamHttpException extends CustomException {}
-class SafeStreamHttpAuthException extends SafeStreamHttpException {}
-class SafeStreamHttpBadRequestException extends SafeStreamHttpException {}
-class SafeStreamHttpThrottleException extends SafeStreamHttpException {}
+class SafeStreamHttpResponseException extends SafeStreamHttpException {}
+class SafeStreamHttpAuthException extends SafeStreamHttpResponseException {}
+class SafeStreamHttpBadRequestException extends SafeStreamHttpResponseException {}
+class SafeStreamHttpThrottleException extends SafeStreamHttpResponseException {}
+class SafeStreamHttpConflictException extends SafeStreamHttpResponseException {}
 
 class SafeStreamHttpClient
 {
@@ -114,12 +116,18 @@ class SafeStreamHttpClient
         ]];
 
         if(!is_null($body)) {
+            $body = (object) array_filter((array) $body); // Remove nulls
             $requestOptions['body'] = json_encode($body);
         }
 
-        $response = $this->client->request($method, $path, $requestOptions);
 
-        return $this->handleResult($response);
+        try {
+            $response = $this->client->request($method, $path, $requestOptions);
+
+            return json_decode($response->getBody());
+        } catch(GuzzleHttp\Exception\RequestException $e) {
+            $this->handleExceptionResult($e);
+        }
     }
 
     /**
@@ -133,42 +141,46 @@ class SafeStreamHttpClient
      * @throws SafeStreamHttpThrottleException
      */
     public function getAuthToken() {
-        $response = $this->client->request('POST', "token", ['headers' => [
-            'Content-Type' => 'application/json',
-            'x-api-key'    => $this->apiKey
-        ]]);
+        try {
+            $response = $this->client->request('POST', "token", ['headers' => [
+                'Content-Type' => 'application/json',
+                'x-api-key' => $this->apiKey
+            ]]);
 
-        return $this->handleResult($response)->token;
+            return json_decode($response->getBody())->token;
+        } catch (GuzzleHttp\Exception\RequestException $e) {
+            $this->handleExceptionResult($e);
+        }
     }
 
     /**
-     * HTTP response handler
-     * @param ResponseInterface $response
-     * @return mixed The JSON decoded response
+     * @param GuzzleHttp\Exception\RequestException $exception
      * @throws SafeStreamHttpAuthException
      * @throws SafeStreamHttpBadRequestException
+     * @throws SafeStreamHttpConflictException
      * @throws SafeStreamHttpException
      * @throws SafeStreamHttpThrottleException
      */
-    private function handleResult(ResponseInterface $response) {
-        $response_code = $response->getStatusCode();
-        if($response_code >= 400) {
-            if($response_code == 400) {
-                throw new SafeStreamHttpBadRequestException($response->getBody());
-            }
+    private function handleExceptionResult(GuzzleHttp\Exception\RequestException $exception) {
+        $response_code = $exception->getResponse()->getStatusCode();
 
-            if($response_code == 401 || $response_code == 403) {
-                throw new SafeStreamHttpAuthException($response->getBody());
-            }
-
-            if($response_code == 420) {
-                throw new SafeStreamHttpThrottleException($response->getBody());
-            }
-
-            throw new SafeStreamHttpException($response->getBody());
-        } else {
-            return json_decode($response->getBody());
+        if($response_code == 400) {
+            throw new SafeStreamHttpBadRequestException($exception);
         }
+
+        if($response_code == 401 || $response_code == 403) {
+            throw new SafeStreamHttpAuthException($exception);
+        }
+
+        if($response_code == 409 || $response_code == 409) {
+            throw new SafeStreamHttpConflictException($exception);
+        }
+
+        if($response_code == 420) {
+            throw new SafeStreamHttpThrottleException($exception);
+        }
+
+        throw new SafeStreamHttpException($exception);
     }
 
     /**
