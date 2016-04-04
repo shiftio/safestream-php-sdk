@@ -72,6 +72,23 @@ You can also give your video's custom keys to make it easier to find them later.
 $safeStreamClient.video().create(["sourceUrl" => "https://example.com/my-video.mp4", "key" => "red-carpet-reel-20"]);
 ```
 #### Watermarking Videos
+##### Function
+###### create($videoKey, $watermarkConfiguration, $timeout = 90000)
+| Argument  | Type | Description |
+| ------------- | ------------- | ------------- |
+| videoKey  | string  | The video key that you gave when creating the video. If no key was given then the key value is the same as the videos sourceUrl  |
+| watermarkConfiguration  | WatermarkConfiguration OR Array of WatermarkConfiguration  | See [Watermark Configuration Properties](#watermark-configuration-properties) |
+| timeout  | long  | Time (in millis) to wait for watermarking to complete. Most watermarking will be complete in < 30 seconds  |
+
+###### createFromTemplate($videoKey, $templateId, $templateMapping, $timeout = 90000)
+| Argument  | Type | Description |
+| ------------- | ------------- | ------------- |
+| videoKey  | string  | The video key that you gave when creating the video. If no key was given then the key value is the same as the videos sourceUrl  |
+| templateId  | string  | See [Templates](#templates) |
+| templateMapping  | Map (Key / Values)  | See [Templates](#templates) |
+| timeout  | long  | Time (in millis) to wait for watermarking to complete. Most watermarking will be complete in < 30 seconds  |
+##### Examples
+###### Basic Watermark
 ```php
 $watermarkConfiguration = new \SafeStream\Watermark\WatermarkConfiguration(["content" => "YOUR NAME"]);
 $safeStreamClient->watermark()->create("YOUR VIDEO KEY", $watermarkConfiguration, 90000);
