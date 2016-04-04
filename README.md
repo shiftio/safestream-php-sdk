@@ -35,10 +35,31 @@ First, you'll need to instantiate a new SafeStreamClient. Through the client, yo
 $safeStreamClient = new \SafeStream\SafeStreamClient(["apiKey" => "YOUR API KEY"]);
  ```
  
-#### Adding Your Videos to SafeStream
+#### Videos
 Before SafeStream can watermark your videos you first need to tell SafeStream about them. To do this you just need to give SafeStream the URL to your video and it will download it and prepare it for watermarking. This step typically takes half or real time. Meaning that a 5 minute video would take 2-3 minutes.
 
-##### Here's a simple example of creating a video:
+#####Functions
+######create(Video $video, $waitForIngest = 0)
+
+| Argument  | Type | Description |
+| ------------- | ------------- | ------------- |
+| video  | Video  | The video to be ingested  |
+| waitForIngest  | long  | The time (in millis) to wait for ingest to complete before returning. Video ingest typically takes approxamately half of realtime. Meaning, a 5 minute video would finish in 2-3 minutes  |
+
+######createFromSourceUrl($sourceUrl, $waitForIngest = 0)
+| Argument  | Type | Description |
+| ------------- | ------------- | ------------- |
+| sourceUrl  | string  | The URL of the video to be ingested  |
+| waitForIngest  | long  | The time (in millis) to wait for ingest to complete before returning. Video ingest typically takes approxamately half of realtime. Meaning, a 5 minute video would finish in 2-3 minutes  |
+
+######find($svideoKey)
+| Argument  | Type | Description |
+| ------------- | ------------- | ------------- |
+| videoKey  | string  | The video key that you gave when creating the video. If no key was given then the key value is the same as the videos sourceUrl  |
+
+
+##### Examples
+###### Here's a simple example of creating a video:
 
 ```php
 $safeStreamClient.video().createFromSourceUrl("https://example.com/my-video.mp4");
@@ -46,7 +67,7 @@ $safeStreamClient.video().createFromSourceUrl("https://example.com/my-video.mp4"
 
 You can also give your video's custom keys to make it easier to find them later. For example, if you have a video in your own system that you've named "red-carpet-reel-20" you can give SafeStream this key and will store it with the video. This way, you don't have to store SafeStream id's if you don't want to. 
 
-##### Here's a simple example of creating a video with a custom key:
+###### Here's a simple example of creating a video with a custom key:
 ```php
 $safeStreamClient.video().create(["sourceUrl" => "https://example.com/my-video.mp4", "key" => "red-carpet-reel-20"]);
 ```
