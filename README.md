@@ -53,8 +53,38 @@ $safeStreamClient.video().create(["sourceUrl" => "https://example.com/my-video.m
 #### Watermarking Videos
 ```php
 $watermarkConfiguration = new \SafeStream\Watermark\WatermarkConfiguration(["content" => "YOUR NAME"]);
-$safeStreamClient->watermark("YOUR VIDEO KEY", $watermarkConfiguration, 90000);
+$safeStreamClient->watermark()->create("YOUR VIDEO KEY", $watermarkConfiguration, 90000);
 ```
+#### Watermarking Videos from a Template
+Instead of passing in the watermark configuration each time you watermark a video you can use templates. Templates are stored watermark configuration with varible text in the content field. See blah for more on creating templates.
+```php
+$watermarkConfiguration = new \SafeStream\Watermark\WatermarkConfiguration(["content" => "YOUR NAME"]);
+$safeStreamClient->watermark()->createFromTemplate("YOUR VIDEO KEY", "TEMPLATE ID", array("first_name", "Joe"));
+```
+
+The above example assumes you have a template with a variable place holder, "first_name" which might look something like:
+```json
+ {
+  "settings": [
+    {
+      "content": "First Name [%first_name%]",
+      "horizontalAlignment": "CENTER",
+      "verticalAlignment": "MIDDLE",
+      "fontColor": "0xffffff",
+      "shadowOpacity": 0.1,
+      "fontOpacity": 0.3,
+      "type": "TEXT",
+      "shadowOffsetX": 0.08,
+      "fontSize": 0.05,
+      "shadowColor": "0x000000",
+      "y": 0.5,
+      "x": 0.5,
+      "shadowOffsetY": 0.08
+    }
+  ]
+}
+```
+
 #### Watermark Configuration Properties
 Name | Description
 ------------ | -------------
@@ -72,3 +102,18 @@ shadowColor | Hex value of watermark text drop shadow color (ex 0xffffff)
 shadowOffsetX | Horizontal offset of the drop shadow
 shadowOffsetY | Vertical offset of the drop shadow
 
+#### Watermarking Templates
+Watermarking templates allow you to store pre-configured watermark settings in SafeStream. This allows you to avoid having to send watermark configurations with each watermarking request. The Templates allow you to set all of the watermark configuration properties but also allow you to set the content field to contain variable content which would be hydrated during subsequent watermark requests.
+
+Creating a new template is simple:
+```php
+$watermarkConfiguration = new \SafeStream\Watermark\WatermarkConfiguration(["content" => "[%first_name%]"]);
+$template = new \SafeStream\Watermark\Template\Template();
+$template->addWatermarkConfiguration($watermarkConfiguration);
+$safeStreamClient->watermark()->template()->save($template);
+```
+
+And then to use if for watermarking:
+```php
+$watermarkClient->watermark()->createFromTemplate("YOUR VIDEO KEY", "YOUR TEMPLATE ID", array("first_name" => "Joe"));
+```
