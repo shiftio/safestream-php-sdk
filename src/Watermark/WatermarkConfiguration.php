@@ -117,9 +117,7 @@ class WatermarkConfiguration {
             }
 
             $this->content = $args['content'];
-        } else {
-            throw new WatermarkConfigurationException("Property 'content' must be set");
-        }
+        } 
 
         if(isset($args['type'])) {
             if(!is_string($args['type'])) {
@@ -223,6 +221,71 @@ class WatermarkConfiguration {
 
             $this->verticalAlignment = $args['verticalAlignment'];
         }
+    }
+
+    public function withContent($content) {
+        $this->content = $content;
+        return $this;
+    }
+
+    public function withType($content) {
+        $this->type = $type;
+        return $this;
+    }
+
+    public function withHorizontalAlignment($horizontalAlignment) {
+        $this->horizontalAlignment = $horizontalAlignment;
+        return $this;
+    }
+
+    public function withVerticalAlignment($verticalAlignment) {
+        $this->verticalAlignment = $verticalAlignment;
+        return $this;
+    }
+
+    public function withX($x) {
+        $this->x = $x;
+        return $this;
+    }
+
+    public function withY($y) {
+        $this->y = $y;
+        return $this;
+    }
+
+    public function withFontSize($fontSize) {
+        $this->fontSize = $fontSize;
+        return $this;
+    }
+
+    public function withFontOpacity($fontOpacity) {
+        $this->fontOpacity = $fontOpacity;
+        return $this;
+    }
+
+    public function withFontColor($fontColor) {
+        $this->fontColor = $fontColor;
+        return $this;
+    }
+
+    public function withShadowOpacity($shadowOpacity) {
+        $this->shadowOpacity = $shadowOpacity;
+        return $this;
+    }
+
+    public function withShadowColor($shadowColor) {
+        $this->shadowColor = $shadowColor;
+        return $this;
+    }
+
+    public function withShadowOffsetX($shadowOffsetX) {
+        $this->shadowOffsetX = $shadowOffsetX;
+        return $this;
+    }
+
+    public function withShadowOffsetY($shadowOffsetY) {
+        $this->shadowOffsetY = $shadowOffsetY;
+        return $this;
     }
 
     private function isBetweenZeroAndOne($val) {

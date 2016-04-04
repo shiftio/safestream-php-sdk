@@ -47,6 +47,10 @@ class WatermarkClient extends SafeStreamHttpClient
      */
     private $apiResourcePath = "watermark";
 
+    private $template;
+
+    private $args;
+
     /**
      * Constructs a new SDK object with an associative array of default
      * client settings.
@@ -59,6 +63,15 @@ class WatermarkClient extends SafeStreamHttpClient
     public function __construct(array $args = [])
     {
         parent::__construct($args);
+        $this->args = $args;
+    }
+
+    public function template() {
+        if(is_null($this->template)) {
+            $this->template = new Watermark\Template\TemplateClient($this->args);
+        }
+
+        return $this->template;
     }
 
     /**
@@ -87,6 +100,31 @@ class WatermarkClient extends SafeStreamHttpClient
         $this->validateTimeout($timeout);
         $payload = array("key" => $videoKey, "settings" => array($watermarkConfiguration));
 
+        return $this->createAPI($payload, $timeout);
+    }
+
+    /**
+     * Watermarks a video from an existing watermark template.
+     * For more on watermark templates @see Watermark\Template\Template
+     *
+     * @param $videoKey
+     *          The unique key for the video to watermark. The key is a property on the video
+     *          defined at ingest time. @see http://docs.safestream.com/docs/video
+     * @param $templateId
+     * @param $templateMapping
+     *          Key/Value pairs that hydrate the template
+     * @return mixed
+     * @throws WatermarkClientException
+     * @throws WatermarkingException
+     */
+    public function createFromTemplate($videoKey, $templateId, $templateMapping) {
+        $payload = array("key" => $videoKey, "settingsTemplateMapping" => array( "id" => $templateId, "mappings" => $templateMapping ));
+        var_dump($payload);
+        echo json_encode($payload);
+        return $this->createAPI($payload, $payload);
+    }
+
+    private function createAPI($payload, $timeout = 90000) {
         $watermarkResult = $this->post($this->apiResourcePath, $payload);
 
         // If we have a timeout then we'll wait until the watermarking has completed before
@@ -116,7 +154,7 @@ class WatermarkClient extends SafeStreamHttpClient
             throw new WatermarkClientException($e);
         }
     }
-    
+
     private function validateVideoKey($videoKey) {
         if(is_null($videoKey) || !is_string($videoKey)) {
             throw new WatermarkClientException("The video key must be a string");
