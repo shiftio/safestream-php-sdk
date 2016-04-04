@@ -113,15 +113,15 @@ class WatermarkClient extends SafeStreamHttpClient
      * @param $templateId
      * @param $templateMapping
      *          Key/Value pairs that hydrate the template
+     * @param int $timeout The length of time to wait for the watermarking to complete. Most
+     *          videos will complete in less than 60 seconds.
      * @return mixed
      * @throws WatermarkClientException
      * @throws WatermarkingException
      */
-    public function createFromTemplate($videoKey, $templateId, $templateMapping) {
+    public function createFromTemplate($videoKey, $templateId, $templateMapping, $timeout = 90000) {
         $payload = array("key" => $videoKey, "settingsTemplateMapping" => array( "id" => $templateId, "mappings" => $templateMapping ));
-        var_dump($payload);
-        echo json_encode($payload);
-        return $this->createAPI($payload, $payload);
+        return $this->createAPI($payload, $timeout);
     }
 
     private function createAPI($payload, $timeout = 90000) {
