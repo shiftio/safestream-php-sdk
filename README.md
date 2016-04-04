@@ -72,7 +72,7 @@ You can also give your video's custom keys to make it easier to find them later.
 $safeStreamClient.video().create(["sourceUrl" => "https://example.com/my-video.mp4", "key" => "red-carpet-reel-20"]);
 ```
 #### Watermarking Videos
-##### Function
+##### Functions
 ###### create($videoKey, $watermarkConfiguration, $timeout = 90000)
 | Argument  | Type | Description |
 | ------------- | ------------- | ------------- |
@@ -84,8 +84,8 @@ $safeStreamClient.video().create(["sourceUrl" => "https://example.com/my-video.m
 | Argument  | Type | Description |
 | ------------- | ------------- | ------------- |
 | videoKey  | string  | The video key that you gave when creating the video. If no key was given then the key value is the same as the videos sourceUrl  |
-| templateId  | string  | See [Templates](#templates) |
-| templateMapping  | Map (Key / Values)  | See [Templates](#templates) |
+| templateId  | string  | See [Watermarking Templates](#watermarking-templates) |
+| templateMapping  | Map (Key / Values)  | See [Templates](#watermarking-templates) |
 | timeout  | long  | Time (in millis) to wait for watermarking to complete. Most watermarking will be complete in < 30 seconds  |
 ##### Examples
 ###### Basic Watermark
@@ -93,7 +93,7 @@ $safeStreamClient.video().create(["sourceUrl" => "https://example.com/my-video.m
 $watermarkConfiguration = new \SafeStream\Watermark\WatermarkConfiguration(["content" => "YOUR NAME"]);
 $safeStreamClient->watermark()->create("YOUR VIDEO KEY", $watermarkConfiguration, 90000);
 ```
-#### Watermarking Videos from a Template
+###### Watermarking Videos from a Template
 Instead of passing in the watermark configuration each time you watermark a video you can use templates. Templates are stored watermark configuration with varible text in the content field. See blah for more on creating templates.
 ```php
 $watermarkConfiguration = new \SafeStream\Watermark\WatermarkConfiguration(["content" => "YOUR NAME"]);
@@ -143,7 +143,17 @@ shadowOffsetY | Vertical offset of the drop shadow
 #### Watermarking Templates
 Watermarking templates allow you to store pre-configured watermark settings in SafeStream. This allows you to avoid having to send watermark configurations with each watermarking request. The Templates allow you to set all of the watermark configuration properties but also allow you to set the content field to contain variable content which would be hydrated during subsequent watermark requests.
 
-Creating a new template is simple:
+##### Functions
+###### save(Template $template)
+| Argument  | Type | Description |
+| ------------- | ------------- | ------------- |
+| template  | Template  | The template to save for future watermarking  |
+| templateId  | string  | See [Watermarking Templates](#watermarking-templates) |
+| templateMapping  | Map (Key / Values)  | See [Templates](#watermarking-templates) |
+| timeout  | long  | Time (in millis) to wait for watermarking to complete. Most watermarking will be complete in < 30 seconds  |
+
+##### Examples
+Creating a new watermarking template:
 ```php
 $watermarkConfiguration = new \SafeStream\Watermark\WatermarkConfiguration(["content" => "[%first_name%]"]);
 $template = new \SafeStream\Watermark\Template\Template();
