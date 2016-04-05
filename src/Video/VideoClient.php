@@ -45,15 +45,6 @@ class VideoClient extends SafeStreamHttpClient
      */
     private $apiResourcePath = "videos";
 
-    /**
-     * Constructs a new SDK object with an associative array of default
-     * client settings.
-     *
-     * @param array $args
-     *
-     * @throws \InvalidArgumentException
-     * @see SafeStream\SafeStreamClient::__construct for a list of available options.
-     */
     public function __construct(array $args = [])
     {
         parent::__construct($args);
@@ -134,7 +125,7 @@ class VideoClient extends SafeStreamHttpClient
         try {
             // Request the video from the SafeStream REST API
             $videos = $this->get(sprintf("%s?key=%s", $this->apiResourcePath, $videoKey));
-            
+
             return $videos[0];
         } catch (SafeStreamHttpException $e) {
             throw new VideoClientException($e);

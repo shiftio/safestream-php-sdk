@@ -50,16 +50,7 @@ class WatermarkClient extends SafeStreamHttpClient
     private $template;
 
     private $args;
-
-    /**
-     * Constructs a new SDK object with an associative array of default
-     * client settings.
-     *
-     * @param array $args
-     *
-     * @throws \InvalidArgumentException
-     * @see SafeStream\SafeStreamClient::__construct for a list of available options.
-     */
+    
     public function __construct(array $args = [])
     {
         parent::__construct($args);

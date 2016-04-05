@@ -56,7 +56,7 @@ class WatermarkConfiguration {
      * A value of RIGHT will anchor the watermark on it's left most pixel
      * A value of CENTER will anchor the watermark in it's center most pixel
      */
-    public $horizontalAlignment = WatermarkHorizontalAlignment::CENTER;
+    public $align = WatermarkHorizontalAlignment::CENTER;
 
     /**
      * Specifies the vertical anchor point on the watermark.
@@ -65,7 +65,7 @@ class WatermarkConfiguration {
      * A value of MIDDLE will anchor the watermark on it's middle most pixel
      * A value of BOTTOM will anchor the watermark in it's bottom most pixel
      */
-    public $verticalAlignment = WatermarkVerticalAlignment::MIDDLE;
+    public $verticalAlign = WatermarkVerticalAlignment::MIDDLE;
 
 
     /**
@@ -117,7 +117,7 @@ class WatermarkConfiguration {
             }
 
             $this->content = $args['content'];
-        } 
+        }
 
         if(isset($args['type'])) {
             if(!is_string($args['type'])) {
@@ -211,7 +211,7 @@ class WatermarkConfiguration {
                 throw new WatermarkConfigurationException(sprintf($notAStringExceptionMessage, 'horizontalAlignment'));
             }
 
-            $this->horizontalAlignment = $args['horizontalAlignment'];
+            $this->align = $args['horizontalAlignment'];
         }
 
         if(isset($args['verticalAlignment'])) {
@@ -219,7 +219,7 @@ class WatermarkConfiguration {
                 throw new WatermarkConfigurationException(sprintf($notAStringExceptionMessage, 'verticalAlignment'));
             }
 
-            $this->verticalAlignment = $args['verticalAlignment'];
+            $this->verticalAlign = $args['verticalAlignment'];
         }
     }
 
@@ -228,18 +228,18 @@ class WatermarkConfiguration {
         return $this;
     }
 
-    public function withType($content) {
+    public function withType($type) {
         $this->type = $type;
         return $this;
     }
 
     public function withHorizontalAlignment($horizontalAlignment) {
-        $this->horizontalAlignment = $horizontalAlignment;
+        $this->align = $horizontalAlignment;
         return $this;
     }
 
     public function withVerticalAlignment($verticalAlignment) {
-        $this->verticalAlignment = $verticalAlignment;
+        $this->verticalAlign = $verticalAlignment;
         return $this;
     }
 

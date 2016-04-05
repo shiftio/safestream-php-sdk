@@ -33,28 +33,13 @@ use SafeStream\CustomException;
 
 class TemplateClientException extends CustomException {}
 
-/**
- * Class WatermarkClient
- * @package SafeStream\Watermark
- *
- * The Watermark API provides support for adding a destructive watermark to videos.
- */
 class TemplateClient extends SafeStreamHttpClient
 {
     /**
      * The SafeStream REST endpoint for video requests
      */
     private $apiResourcePath = "templates";
-
-    /**
-     * Constructs a new SDK object with an associative array of default
-     * client settings.
-     *
-     * @param array $args
-     *
-     * @throws \InvalidArgumentException
-     * @see SafeStream\SafeStreamClient::__construct for a list of available options.
-     */
+    
     public function __construct(array $args = [])
     {
         parent::__construct($args);
