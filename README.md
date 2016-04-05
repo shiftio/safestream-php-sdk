@@ -165,3 +165,5 @@ And then to use if for watermarking:
 ```php
 $watermarkClient->watermark()->createFromTemplate("YOUR VIDEO KEY", "YOUR TEMPLATE ID", array("first_name" => "Joe"));
 ```
+
+##### [License](LICENSE.md)
