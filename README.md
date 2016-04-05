@@ -36,7 +36,7 @@ $safeStreamClient = new \SafeStream\SafeStreamClient(["apiKey" => "YOUR API KEY"
  ```
  
 #### Videos
-Before SafeStream can watermark your videos you first need create them. When you create a video in SafeStream your video gets downloaded and encoded so it is ready for your future watermarking requests. Creating a video typically takes half or real time. Meaning that a 5 minute video would take 2-3 minutes.
+Before SafeStream can watermark your videos you first need create them. When you create a video in SafeStream your video gets downloaded and encoded so it is ready for your future watermarking requests. Creating a video typically takes half of real time. Meaning that a 5 minute video would take 2-3 minutes.
 
 #####Functions
 ######create(Video $video, $waitForIngest = 0)
