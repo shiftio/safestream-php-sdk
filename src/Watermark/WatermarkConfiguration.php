@@ -106,185 +106,199 @@ class WatermarkConfiguration {
     public $shadowOffsetX = 0.08;
     public $shadowOffsetY = 0.08;
 
+    private $numberBetweenExceptionMessage = "";//"Property '%s' must be between %s and %s";
+    private $notAStringExceptionMessage = "";//"Property '%s' must be a string";
+
     public function __construct(array $args = [])
     {
-        $numberBetweenExceptionMessage = "";//"Property '%s' must be between %s and %s";
-        $notAStringExceptionMessage = "";//"Property '%s' must be a string";
-
-        if(isset($args['content'])) {
-            if(!is_string($args['content']) || strlen($args['content']) == 0) {
-                throw new WatermarkConfigurationException(sprintf($notAStringExceptionMessage, 'type'));
-            }
-
-            $this->content = $args['content'];
-        }
-
-        if(isset($args['type'])) {
-            if(!is_string($args['type'])) {
-                throw new WatermarkConfigurationException(sprintf($notAStringExceptionMessage, 'type'));
-            }
-
-            $this->type = $args['type'];
-        }
-
-        if(isset($args['x'])) {
-            if(!is_numeric($args['x']) && !$this->isBetweenZeroAndOne($args['x'])) {
-                throw new WatermarkConfigurationException(sprintf($numberBetweenExceptionMessage, 'x',
-                    0, 1));
-            }
-
-            $this->x = $args['x'];
-        }
-
-        if(isset($args['y'])) {
-            if(!is_numeric($args['y']) && !$this->isBetweenZeroAndOne($args['y'])) {
-                throw new WatermarkConfigurationException($numberBetweenExceptionMessage, 'y', 0,
-                    1);
-            }
-
-            $this->y = $args['y'];
-        }
-
-        if(isset($args['fontSize'])) {
-            if(!is_numeric($args['fontSize']) && !$this->isBetweenZeroAndOne($args['fontSize'])) {
-                throw new WatermarkConfigurationException($numberBetweenExceptionMessage, 'fontSize', 0,
-                    1);
-            }
-
-            $this->fontSize = $args['fontSize'];
-        }
-
-        if(isset($args['fontOpacity'])) {
-            if(!is_numeric($args['fontOpacity']) && !$this->isBetweenZeroAndOne($args['fontOpacity'])) {
-                throw new WatermarkConfigurationException($numberBetweenExceptionMessage, 'fontOpacity', 0,
-                    1);
-            }
-
-            $this->fontOpacity = $args['fontOpacity'];
-        }
-
-        if(isset($args['fontColor'])) {
-            if(!is_string($args['fontColor'])) {
-                throw new WatermarkConfigurationException(sprintf($notAStringExceptionMessage, 'fontColor'));
-            }
-
-            $this->fontColor = $args['fontColor'];
-        }
-
-        if(isset($args['shadowOpacity'])) {
-            if(!is_numeric($args['shadowOpacity']) && !$this->isBetweenZeroAndOne($args['shadowOpacity'])) {
-                throw new WatermarkConfigurationException($numberBetweenExceptionMessage, 'shadowOpacity', 0,
-                    1);
-            }
-
-            $this->shadowOpacity = $args['shadowOpacity'];
-        }
-
-        if(isset($args['shadowColor'])) {
-            if(!is_string($args['shadowColor'])) {
-                throw new WatermarkConfigurationException(sprintf($notAStringExceptionMessage, 'shadowColor'));
-            }
-
-            $this->shadowColor = $args['shadowColor'];
-        }
-
-        if(isset($args['shadowOffsetX'])) {
-            if(!is_numeric($args['shadowOffsetX']) && !$this->isBetweenZeroAndOne($args['shadowOffsetX'])) {
-                throw new WatermarkConfigurationException($numberBetweenExceptionMessage, 'shadowOffsetX', 0,
-                    1);
-            }
-
-            $this->shadowOffsetX = $args['shadowOffsetX'];
-        }
-
-        if(isset($args['shadowOpacity'])) {
-            if(!is_numeric($args['shadowOffsetY']) && !$this->isBetweenZeroAndOne($args['shadowOffsetY'])) {
-                throw new WatermarkConfigurationException($numberBetweenExceptionMessage, 'shadowOffsetY', 0,
-                    1);
-            }
-
-            $this->shadowOffsetY = $args['shadowOffsetY'];
-        }
-
-        if(isset($args['horizontalAlignment'])) {
-            if(!is_string($args['horizontalAlignment'])) {
-                throw new WatermarkConfigurationException(sprintf($notAStringExceptionMessage, 'horizontalAlignment'));
-            }
-
-            $this->align = $args['horizontalAlignment'];
-        }
-
-        if(isset($args['verticalAlignment'])) {
-            if(!is_string($args['verticalAlignment'])) {
-                throw new WatermarkConfigurationException(sprintf($notAStringExceptionMessage, 'verticalAlignment'));
-            }
-
-            $this->verticalAlign = $args['verticalAlignment'];
-        }
+        echo "FOOOO" . $args['horizontalAlignment'];
+        $this->withContent($args['content']);
+        $this->withType($args['type']);
+        $this->withX($args['x']);
+        $this->withY($args['y']);
+        $this->withFontSize($args['fontSize']);
+        $this->withFontOpacity($args['fontOpacity']);
+        $this->withFontColor($args['fontColor']);
+        $this->withShadowOpacity($args['shadowOpacity']);
+        $this->withShadowColor($args['shadowColor']);
+        $this->withShadowOffsetX($args['shadowOffsetX']);
+        $this->withShadowOffsetY($args['shadowOffsetY']);
+        $this->withHorizontalAlignment($args['horizontalAlignment']);
+        $this->withVerticalAlignment($args['verticalAlignment']);
     }
 
     public function withContent($content) {
-        $this->content = $content;
+        if(isset($content)) {
+            if(!is_string($content) || strlen($content) == 0) {
+                throw new WatermarkConfigurationException(sprintf($this->notAStringExceptionMessage, 'content'));
+            }
+
+            $this->content = $content;
+        }
+
         return $this;
     }
 
     public function withType($type) {
-        $this->type = $type;
+        if(isset($type)) {
+            if(!is_string($type)) {
+                throw new WatermarkConfigurationException(sprintf($this->notAStringExceptionMessage, 'type'));
+            }
+
+            if(strtoupper($type) != 'TEXT') {
+                throw new WatermarkConfigurationException("Invalid value for type " . $type);
+            }
+
+            $this->type = strtoupper($type);
+        }
+
         return $this;
     }
 
     public function withHorizontalAlignment($horizontalAlignment) {
-        $this->align = $horizontalAlignment;
+        if(isset($horizontalAlignment)) {
+            if(!is_string($horizontalAlignment)) {
+                throw new WatermarkConfigurationException(sprintf($this->notAStringExceptionMessage, 'horizontalAlignment'));
+            }
+
+            if($horizontalAlignment != WatermarkHorizontalAlignment::LEFT && $horizontalAlignment != WatermarkHorizontalAlignment::CENTER && $horizontalAlignment != WatermarkHorizontalAlignment::RIGHT) {
+                throw new WatermarkConfigurationException("Invalid value for horizontalAlignment " . $horizontalAlignment);
+            }
+
+            $this->align = strtoupper($horizontalAlignment);
+        }
+
         return $this;
     }
 
     public function withVerticalAlignment($verticalAlignment) {
-        $this->verticalAlign = $verticalAlignment;
+        if(isset($verticalAlignment)) {
+            if(!is_string($verticalAlignment)) {
+                throw new WatermarkConfigurationException(sprintf($this->notAStringExceptionMessage, 'verticalAlignment'));
+            }
+
+            if($verticalAlignment != WatermarkVerticalAlignment::TOP && $verticalAlignment != WatermarkVerticalAlignment::MIDDLE && $verticalAlignment != WatermarkVerticalAlignment::BOTTOM) {
+                throw new WatermarkConfigurationException("Invalid value for verticalAlignment " . $verticalAlignment);
+            }
+
+            $this->verticalAlign = strtoupper($verticalAlignment);
+        }
+
         return $this;
     }
 
     public function withX($x) {
-        $this->x = $x;
+        if(isset($x)) {
+            if(!is_numeric($x) && !$this->isBetweenZeroAndOne($x)) {
+                throw new WatermarkConfigurationException(sprintf($this->numberBetweenExceptionMessage, 'x',
+                    0, 1));
+            }
+
+            $this->x = $x;
+        }
+
         return $this;
     }
 
     public function withY($y) {
-        $this->y = $y;
+        if(isset($y)) {
+            if(!is_numeric($y) && !$this->isBetweenZeroAndOne($y)) {
+                throw new WatermarkConfigurationException(sprintf($this->numberBetweenExceptionMessage, 'y',
+                    0, 1));
+            }
+
+            $this->y = $y;
+        }
+
         return $this;
     }
 
     public function withFontSize($fontSize) {
-        $this->fontSize = $fontSize;
+        if(isset($fontSize)) {
+            if(!is_numeric($fontSize) && !$this->isBetweenZeroAndOne($fontSize)) {
+                throw new WatermarkConfigurationException($this->numberBetweenExceptionMessage, 'fontSize', 0,
+                    1);
+            }
+
+            $this->fontSize = $fontSize;
+        }
+
         return $this;
     }
 
     public function withFontOpacity($fontOpacity) {
-        $this->fontOpacity = $fontOpacity;
+        if(isset($fontOpacity)) {
+            if(!is_numeric($fontOpacity) && !$this->isBetweenZeroAndOne($fontOpacity)) {
+                throw new WatermarkConfigurationException($this->numberBetweenExceptionMessage, 'fontOpacity', 0,
+                    1);
+            }
+
+            $this->fontOpacity = $fontOpacity;
+        }
+
         return $this;
     }
 
     public function withFontColor($fontColor) {
-        $this->fontColor = $fontColor;
+        if(isset($fontColor)) {
+            if(!is_string($fontColor)) {
+                throw new WatermarkConfigurationException(sprintf($this->notAStringExceptionMessage, 'fontColor'));
+            }
+
+            $this->fontColor = $fontColor;
+        }
+
         return $this;
     }
 
     public function withShadowOpacity($shadowOpacity) {
-        $this->shadowOpacity = $shadowOpacity;
+        if(isset($shadowOpacity)) {
+            if(!is_numeric($shadowOpacity) && !$this->isBetweenZeroAndOne($shadowOpacity)) {
+                throw new WatermarkConfigurationException($this->numberBetweenExceptionMessage, 'shadowOpacity', 0,
+                    1);
+            }
+
+            $this->shadowOpacity = $shadowOpacity;
+        }
+
         return $this;
     }
 
     public function withShadowColor($shadowColor) {
-        $this->shadowColor = $shadowColor;
+        if(isset($shadowColor)) {
+            if(!is_string($shadowColor)) {
+                throw new WatermarkConfigurationException(sprintf($this->notAStringExceptionMessage, 'shadowColor'));
+            }
+
+            $this->shadowColor = $shadowColor;
+        }
+
         return $this;
     }
 
     public function withShadowOffsetX($shadowOffsetX) {
-        $this->shadowOffsetX = $shadowOffsetX;
+        if(isset($shadowOffsetX)) {
+            if(!is_numeric($shadowOffsetX) && !$this->isBetweenZeroAndOne($shadowOffsetX)) {
+                throw new WatermarkConfigurationException($this->numberBetweenExceptionMessage, 'shadowOffsetX', 0,
+                    1);
+            }
+
+            $this->shadowOffsetX = $shadowOffsetX;
+        }
+
         return $this;
     }
 
     public function withShadowOffsetY($shadowOffsetY) {
-        $this->shadowOffsetY = $shadowOffsetY;
+        if(isset($shadowOffsetY)) {
+            if(!is_numeric($shadowOffsetY) && !$this->isBetweenZeroAndOne($shadowOffsetY)) {
+                throw new WatermarkConfigurationException($this->numberBetweenExceptionMessage, 'shadowOffsetY', 0,
+                    1);
+            }
+
+            $this->shadowOffsetY = $shadowOffsetY;
+        }
+
         return $this;
     }
 
