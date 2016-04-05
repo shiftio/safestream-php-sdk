@@ -50,7 +50,7 @@ class WatermarkClient extends SafeStreamHttpClient
     private $template;
 
     private $args;
-    
+
     public function __construct(array $args = [])
     {
         parent::__construct($args);
@@ -89,7 +89,9 @@ class WatermarkClient extends SafeStreamHttpClient
         $this->validateVideoKey($videoKey);
         $this->validateWatermarkConfiguration($watermarkConfiguration);
         $this->validateTimeout($timeout);
-        $payload = array("key" => $videoKey, "settings" => array($watermarkConfiguration));
+
+        $config = is_array($watermarkConfiguration) ? $watermarkConfiguration : array($watermarkConfiguration);
+        $payload = array("key" => $videoKey, "settings" => $config);
 
         return $this->createAPI($payload, $timeout);
     }
