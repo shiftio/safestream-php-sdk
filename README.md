@@ -167,17 +167,21 @@ $watermarkClient->watermark()->createFromTemplate("YOUR VIDEO KEY", "YOUR TEMPLA
 ```
 
 ## Example PHP page
-```
+```php
 <?php
 
+// Require autoload which is installed via composer
 require 'vendor/autoload.php';
-$m = new \Moment\Moment();
+
+// Variables should be set in the middle tier so that a user can not modify them client side
 $name = "Sample User";
 $email = "test@safestream.com";
 $company = "Acme Studios 22";
 
-$safeStreamClient = new \SafeStream\SafeStreamClient(["protocol" => "https", "hostName" => "api.safestream.com", "apiKey" => "fd782370-40be-4a91-b539-e61d48092533"]);
+// Instantiate the SafeStreamClient using your own API Key
+$safeStreamClient = new \SafeStream\SafeStreamClient(["protocol" => "https", "hostName" => "api.safestream.com", "apiKey" => "XXXX"]);
 
+// Configuration for the Name
 $watermarkConfiguration1 = new \SafeStream\Watermark\WatermarkConfiguration([
     "content" => "Licensed to " . $name,
     "fontColor" => "FFFFFF",
@@ -189,6 +193,7 @@ $watermarkConfiguration1 = new \SafeStream\Watermark\WatermarkConfiguration([
     "verticalAlignment"  => "TOP"
 ]);
 
+// Configuration for the Company
 $watermarkConfiguration2 = new \SafeStream\Watermark\WatermarkConfiguration([
     "content" => $company,
     "fontColor" => "FFFFFF",
@@ -204,26 +209,9 @@ $watermarkConfiguration2 = new \SafeStream\Watermark\WatermarkConfiguration([
     "shadowOpacity" => 0.33
 ]);
 
-
-
-
-$watermarkConfiguration3 = new \SafeStream\Watermark\WatermarkConfiguration([
-    "content" => $m->format('l, dS F Y / H.i (e)'),
-    "fontColor" => "FFFFFF",
-    "y" =>   0.88,
-    "x" =>  0.03,
-    "fontOpacity" => 0.5,
-    "fontSize" => 0.02,
-    "horizontalAlignment" => "LEFT",
-    "verticalAlignment"  => "TOP",
-    "shadowColor"  => "000000",
-    "shadowOffsetX"  => 0.08,
-    "shadowOffsetY" => 0.08,
-    "shadowOpacity" => 0.33
- ]);
-
- $mydata = $safeStreamClient -> watermark()->create("feature-1",array($watermarkConfiguration1,$watermarkConfiguration2,$watermarkConfiguration3),0);
-
+ $mydata = $safeStreamClient -> watermark()->create("feature-1",array($watermarkConfiguration1,$watermarkConfiguration2),0);
+ 
+ // Return the request to the browser
  echo json_encode($mydata);
 
 }
