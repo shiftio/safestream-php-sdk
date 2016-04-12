@@ -166,4 +166,71 @@ And then to use if for watermarking:
 $watermarkClient->watermark()->createFromTemplate("YOUR VIDEO KEY", "YOUR TEMPLATE ID", array("first_name" => "Joe"));
 ```
 
+## Example PHP page
+```
+<?php
+
+require 'vendor/autoload.php';
+$m = new \Moment\Moment();
+$name = "Sample User";
+$email = "test@safestream.com";
+$company = "Acme Studios 22";
+
+$safeStreamClient = new \SafeStream\SafeStreamClient(["protocol" => "https", "hostName" => "api.safestream.com", "apiKey" => "fd782370-40be-4a91-b539-e61d48092533"]);
+
+$watermarkConfiguration1 = new \SafeStream\Watermark\WatermarkConfiguration([
+    "content" => "Licensed to " . $name,
+    "fontColor" => "FFFFFF",
+    "y" => 0.83,
+    "x" => 0.03,
+    "fontOpacity" => 0.5,
+    "fontSize" => 0.03,
+    "horizontalAlignment" => "LEFT",
+    "verticalAlignment"  => "TOP"
+]);
+
+$watermarkConfiguration2 = new \SafeStream\Watermark\WatermarkConfiguration([
+    "content" => $company,
+    "fontColor" => "FFFFFF",
+    "y" =>   0.04,
+    "x" =>  0.97,
+    "fontOpacity" => 0.5,
+    "fontSize" => 0.03,
+    "horizontalAlignment" => "RIGHT",
+    "verticalAlignment"  => "TOP",
+    "shadowColor"  => "000000",
+    "shadowOffsetX"  => 0.08,
+    "shadowOffsetY" => 0.08,
+    "shadowOpacity" => 0.33
+]);
+
+
+
+
+$watermarkConfiguration3 = new \SafeStream\Watermark\WatermarkConfiguration([
+    "content" => $m->format('l, dS F Y / H.i (e)'),
+    "fontColor" => "FFFFFF",
+    "y" =>   0.88,
+    "x" =>  0.03,
+    "fontOpacity" => 0.5,
+    "fontSize" => 0.02,
+    "horizontalAlignment" => "LEFT",
+    "verticalAlignment"  => "TOP",
+    "shadowColor"  => "000000",
+    "shadowOffsetX"  => 0.08,
+    "shadowOffsetY" => 0.08,
+    "shadowOpacity" => 0.33
+ ]);
+
+ $mydata = $safeStreamClient -> watermark()->create("feature-1",array($watermarkConfiguration1,$watermarkConfiguration2,$watermarkConfiguration3),0);
+
+ echo json_encode($mydata);
+
+}
+
+?>
+
+```
+
+
 ##### [License](LICENSE.md)
