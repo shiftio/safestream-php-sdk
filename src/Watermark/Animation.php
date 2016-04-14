@@ -70,7 +70,7 @@ class Animation
     public function endAtXPosition($x) {
         if(isset($x)) {
             if(!is_numeric($x) || !$this->isBetweenZeroAndOne($x)) {
-                throw new AnimationException(sprintf($this->numberBetweenExceptionMessage, 0, 1));
+                throw new AnimationException(sprintf($this->numberBetweenExceptionMessage, "x", 0, 1));
             }
 
             $this->to_x = $x;
@@ -82,7 +82,7 @@ class Animation
     public function endAtYPosition($y) {
         if(isset($y)) {
             if(!is_numeric($y) || !$this->isBetweenZeroAndOne($y)) {
-                throw new AnimationException(sprintf($this->numberBetweenExceptionMessage, 0, 1));
+                throw new AnimationException(sprintf($this->numberBetweenExceptionMessage, "y", 0, 1));
             }
 
             $this->to_y = $y;
