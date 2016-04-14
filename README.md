@@ -36,7 +36,7 @@ $safeStreamClient = new \SafeStream\SafeStreamClient(["apiKey" => "YOUR API KEY"
  ```
  
 #### Videos
-Before SafeStream can watermark your videos you first need to tell SafeStream about them. To do this you just need to give SafeStream the URL to your video and it will download it and prepare it for watermarking. This step typically takes half or real time. Meaning that a 5 minute video would take 2-3 minutes.
+Before SafeStream can watermark your videos you first need create them. When you create a video in SafeStream your video gets downloaded and encoded so it is ready for your future watermarking requests. Creating a video typically takes half of real time. Meaning that a 5 minute video would take 2-3 minutes.
 
 #####Functions
 ######create(Video $video, $waitForIngest = 0)
@@ -165,5 +165,60 @@ And then to use if for watermarking:
 ```php
 $watermarkClient->watermark()->createFromTemplate("YOUR VIDEO KEY", "YOUR TEMPLATE ID", array("first_name" => "Joe"));
 ```
+
+## Example PHP page
+```php
+<?php
+
+// Require autoload which is installed via composer
+require 'vendor/autoload.php';
+
+// Variables should be set in the middle tier so that a user can not modify them client side
+$name = "Sample User";
+$email = "test@safestream.com";
+$company = "Acme Studios 22";
+
+// Instantiate the SafeStreamClient using your own API Key
+$safeStreamClient = new \SafeStream\SafeStreamClient(["protocol" => "https", "hostName" => "api.safestream.com", "apiKey" => "XXXX"]);
+
+// Configuration for the Name
+$watermarkConfiguration1 = new \SafeStream\Watermark\WatermarkConfiguration([
+    "content" => "Licensed to " . $name,
+    "fontColor" => "FFFFFF",
+    "y" => 0.83,
+    "x" => 0.03,
+    "fontOpacity" => 0.5,
+    "fontSize" => 0.03,
+    "horizontalAlignment" => "LEFT",
+    "verticalAlignment"  => "TOP"
+]);
+
+// Configuration for the Company
+$watermarkConfiguration2 = new \SafeStream\Watermark\WatermarkConfiguration([
+    "content" => $company,
+    "fontColor" => "FFFFFF",
+    "y" =>   0.04,
+    "x" =>  0.97,
+    "fontOpacity" => 0.5,
+    "fontSize" => 0.03,
+    "horizontalAlignment" => "RIGHT",
+    "verticalAlignment"  => "TOP",
+    "shadowColor"  => "000000",
+    "shadowOffsetX"  => 0.08,
+    "shadowOffsetY" => 0.08,
+    "shadowOpacity" => 0.33
+]);
+
+ $mydata = $safeStreamClient -> watermark()->create("feature-1",array($watermarkConfiguration1,$watermarkConfiguration2),0);
+ 
+ // Return the request to the browser
+ echo json_encode($mydata);
+
+}
+
+?>
+
+```
+
 
 ##### [License](LICENSE.md)
