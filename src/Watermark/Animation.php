@@ -30,6 +30,7 @@ use SafeStream\CustomException;
 
 class AnimationException extends CustomException {}
 
+
 /**
  * SafeStream supports the movement of watermarks from their origin location
  * (defined as x and y in WatermarkConfiguration) to an end location over a period of time.
@@ -56,7 +57,7 @@ class Animation
     // The end time of the animation in seconds
     private $endTime = 0.0;
 
-    private $numberBetweenExceptionMessage = "";//"Property '%s' must be between %s and %s";
+    private $numberBetweenExceptionMessage = "Property '%s' must be between %s and %s";
 
     public function __construct(array $args = [])
     {
