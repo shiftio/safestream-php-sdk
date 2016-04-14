@@ -304,6 +304,18 @@ class WatermarkConfiguration {
         return $this;
     }
 
+    public function withAnimation($animation) {
+        if(isset($animation)) {
+            if(get_class($animation) != Animation::class) {
+                throw new WatermarkConfigurationException("Animation should be of type Animation");
+            }
+
+            $this->animation = $animation;
+        }
+
+        return $this;
+    }
+
     public function move($to_x, $to_y, $startTime, $endTime) {
         $animation = new Animation(["to_x" => $to_x, "to_y" => $to_y, "startTime" => $startTime, "endTime" => $endTime]);
         $this->animation = $animation;
