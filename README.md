@@ -139,6 +139,29 @@ shadowOpacity | Opacity of the drop shadow of the watermark text. 0 (totally tra
 shadowColor | Hex value of watermark text drop shadow color (ex 0xffffff)
 shadowOffsetX | Horizontal offset of the drop shadow
 shadowOffsetY | Vertical offset of the drop shadow
+animation | Configuration object for specifying the movement of the watermark. See [Animation](#Animation)
+
+#### Animation
+Text and image watermarks can be animated to move from one coordinate to another. Adding movement to your watermark is simple. You specify the start and end positions as well as the start and end times for the animation to take place and your done.
+##### Examples
+###### Moving a text watermark from left to right
+```php
+$animation = new \SafeStream\Watermark\Animation();
+$animation.withStartTime(0).withEndTime(20).endAtXPosition(1).endAtYPosition(0);
+$watermarkConfiguration = new \SafeStream\Watermark\WatermarkConfiguration([
+    "content" => "YOUR NAME", 
+    "x" => 0.0, 
+    "y" => 0.0, 
+    "animation => $animation]);
+$safeStreamClient->watermark()->create("YOUR VIDEO KEY", $watermarkConfiguration, 90000);
+```
+#### Animation Configuration Properties
+Name | Description
+------------ | -------------
+x | The x coordinate where the animation should end
+y | The y coordinate where the animation should end
+startTime | The time that the animation should begin
+endTime | The time that the animation should end
 
 #### Watermarking Templates
 Watermarking templates allow you to store pre-configured watermark settings in SafeStream. This allows you to avoid having to send watermark configurations with each watermarking request. The Templates allow you to set all of the watermark configuration properties but also allow you to set the content field to contain variable content which would be hydrated during subsequent watermark requests.
