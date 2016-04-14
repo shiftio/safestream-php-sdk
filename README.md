@@ -146,15 +146,16 @@ Text and image watermarks can be animated to move from one coordinate to another
 ##### Examples
 ###### Moving a text watermark from left to right
 ```php
-$animation = new \SafeStream\Watermark\Animation();
-$animation.withStartTime(0).withEndTime(20).endAtXPosition(1).endAtYPosition(0);
-$watermarkConfiguration = new \SafeStream\Watermark\WatermarkConfiguration([
-    "content" => "YOUR NAME", 
-    "x" => 0.0, 
-    "y" => 0.0, 
-    "animation => $animation]);
+$watermarkConfiguration = new \SafeStream\Watermark\WatermarkConfiguration();
+$watermarkConfiguration
+    .withContent("YOUR NAME")
+    .withX(0.0)
+    .withY(0.0)
+    .move(1, 0, 0, 20);
+
 $safeStreamClient->watermark()->create("YOUR VIDEO KEY", $watermarkConfiguration, 90000);
 ```
+The above example will move the text "YOUR NAME" across the top of the video over a period of 20 seconds. Breaking the ```move``` function call down, it will move the text to the x coordiate, 1, and will make no movement along the y axis. It will start at 0 seconds and move to 20 seconds ```move(1, 2, 2, 20)```
 #### Animation Configuration Properties
 Name | Description
 ------------ | -------------
