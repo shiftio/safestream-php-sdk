@@ -43,19 +43,19 @@ class AnimationException extends CustomException {}
  */
 class Animation
 {
-    private $type;
+    public $type = "MOVE";
 
     //The relative x coordinate as a percentage of the video width.
-    private $to_x = 1;
+    public $to_x = 1;
 
     //The relative y coordinate as a percentage of the video height.
-    private $to_y = 1;
+    public $to_y = 1;
 
     // The start time of the animation in seconds
-    private $startTime = 0.0;
+    public $startTime = 0.0;
 
     // The end time of the animation in seconds
-    private $endTime = 0.0;
+    public $endTime = 0.0;
 
     private $numberBetweenExceptionMessage = "Property '%s' must be between %s and %s";
 
@@ -92,7 +92,7 @@ class Animation
     }
 
     public function withStartTime($startTime) {
-        if(isset($y)) {
+        if(isset($startTime)) {
             if(!is_numeric($startTime) || $startTime < 0) {
                 throw new AnimationException("The start time must be greater than zero");
             }
@@ -103,20 +103,20 @@ class Animation
         return $this;
     }
 
-    public function withEndTime($startTime) {
-        if(isset($y)) {
-            if(!is_numeric($startTime)) {
+    public function withEndTime($endTime) {
+        if(isset($endTime)) {
+            if(!is_numeric($endTime)) {
                 throw new AnimationException("The send time must be a number");
             }
 
-            $this->startTime = $startTime;
+            $this->endTime = $endTime;
         }
 
         return $this;
     }
 
     private function isBetweenZeroAndOne($val) {
-        if(!$val >= 0 && !$val <= 1) {
+        if($val < 0 || $val > 1) {
             return false;
         }
 

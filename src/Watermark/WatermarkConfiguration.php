@@ -106,7 +106,7 @@ class WatermarkConfiguration {
     public $shadowOffsetX = 0.08;
     public $shadowOffsetY = 0.08;
 
-    private $animation;
+    public $animation;
 
     private $numberBetweenExceptionMessage = "";//"Property '%s' must be between %s and %s";
     private $notAStringExceptionMessage = "";//"Property '%s' must be a string";
