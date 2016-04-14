@@ -139,7 +139,7 @@ shadowOpacity | Opacity of the drop shadow of the watermark text. 0 (totally tra
 shadowColor | Hex value of watermark text drop shadow color (ex 0xffffff)
 shadowOffsetX | Horizontal offset of the drop shadow
 shadowOffsetY | Vertical offset of the drop shadow
-animation | Configuration object for specifying the movement of the watermark. See [Animation](#Animation)
+animation | Configuration object for specifying the movement of the watermark. See [Animation](#animation)
 
 #### Animation
 Text and image watermarks can be animated to move from one coordinate to another. Adding movement to your watermark is simple. You specify the start and end positions as well as the start and end times for the animation to take place and your done.
