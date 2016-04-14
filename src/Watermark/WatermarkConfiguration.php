@@ -113,20 +113,20 @@ class WatermarkConfiguration {
 
     public function __construct(array $args = [])
     {
-        $this->withContent($args['content']);
-        $this->withType($args['type']);
-        $this->withX($args['x']);
-        $this->withY($args['y']);
-        $this->withFontSize($args['fontSize']);
-        $this->withFontOpacity($args['fontOpacity']);
-        $this->withFontColor($args['fontColor']);
-        $this->withShadowOpacity($args['shadowOpacity']);
-        $this->withShadowColor($args['shadowColor']);
-        $this->withShadowOffsetX($args['shadowOffsetX']);
-        $this->withShadowOffsetY($args['shadowOffsetY']);
-        $this->withHorizontalAlignment($args['horizontalAlignment']);
-        $this->withVerticalAlignment($args['verticalAlignment']);
-        $this->withAnimation($args['animation']);
+        if(isset($args['content'])) $this->withContent($args['content']);
+        if(isset($args['type'])) $this->withType($args['type']);
+        if(isset($args['x'])) $this->withX($args['x']);
+        if(isset($args['y'])) $this->withY($args['y']);
+        if(isset($args['fontSize'])) $this->withFontSize($args['fontSize']);
+        if(isset($args['fontOpacity'])) $this->withFontOpacity($args['fontOpacity']);
+        if(isset($args['fontColor'])) $this->withFontColor($args['fontColor']);
+        if(isset($args['shadowOpacity'])) $this->withShadowOpacity($args['shadowOpacity']);
+        if(isset($args['shadowColor'])) $this->withShadowColor($args['shadowColor']);
+        if(isset($args['shadowOffsetX'])) $this->withShadowOffsetX($args['shadowOffsetX']);
+        if(isset($args['shadowOffsetY'])) $this->withShadowOffsetY($args['shadowOffsetY']);
+        if(isset($args['horizontalAlignment'])) $this->withHorizontalAlignment($args['horizontalAlignment']);
+        if(isset($args['verticalAlignment'])) $this->withVerticalAlignment($args['verticalAlignment']);
+        if(isset($args['animation'])) $this->withAnimation($args['animation']);
     }
 
     public function withContent($content) {

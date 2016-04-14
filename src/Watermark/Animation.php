@@ -60,10 +60,10 @@ class Animation
 
     public function __construct(array $args = [])
     {
-        $this->endAtXPosition($args['to_x']);
-        $this->endAtYPosition($args['to_y']);
-        $this->withStartTime($args['startTime']);
-        $this->withEndTime($args['endTime']);
+        if(isset($args['to_x'])) $this->endAtXPosition($args['to_x']);
+        if(isset($args['to_y'])) $this->endAtYPosition($args['to_y']);
+        if(isset($args['startTime'])) $this->withStartTime($args['startTime']);
+        if(isset($args['endTime'])) $this->withEndTime($args['endTime']);
     }
 
     public function endAtXPosition($x) {
