@@ -26,6 +26,6 @@
 
 namespace SafeStream\Watermark;
 
-abstract class WatermarkType {
-    const TEXT = "TEXT";
+abstract class AnimationType {
+    const MOVE = "MOVE";
 }

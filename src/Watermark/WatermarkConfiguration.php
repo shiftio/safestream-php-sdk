@@ -106,12 +106,13 @@ class WatermarkConfiguration {
     public $shadowOffsetX = 0.08;
     public $shadowOffsetY = 0.08;
 
+    private $animation;
+
     private $numberBetweenExceptionMessage = "";//"Property '%s' must be between %s and %s";
     private $notAStringExceptionMessage = "";//"Property '%s' must be a string";
 
     public function __construct(array $args = [])
     {
-        echo "FOOOO" . $args['horizontalAlignment'];
         $this->withContent($args['content']);
         $this->withType($args['type']);
         $this->withX($args['x']);
@@ -125,6 +126,7 @@ class WatermarkConfiguration {
         $this->withShadowOffsetY($args['shadowOffsetY']);
         $this->withHorizontalAlignment($args['horizontalAlignment']);
         $this->withVerticalAlignment($args['verticalAlignment']);
+        $this->withAnimation($args['animation']);
     }
 
     public function withContent($content) {
@@ -297,6 +299,18 @@ class WatermarkConfiguration {
             }
 
             $this->shadowOffsetY = $shadowOffsetY;
+        }
+
+        return $this;
+    }
+
+    public function withAnimation($animation) {
+        if(isset($animation)) {
+            if(get_class($animation) != Animation::class) {
+                throw new WatermarkConfigurationException("Animation should be of type Animation");
+            }
+
+            $this->animation = $animation;
         }
 
         return $this;
