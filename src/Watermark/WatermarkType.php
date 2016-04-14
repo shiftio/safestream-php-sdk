@@ -28,4 +28,5 @@ namespace SafeStream\Watermark;
 
 abstract class WatermarkType {
     const TEXT = "TEXT";
+    const IMAGE = "IMAGE";
 }
