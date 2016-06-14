@@ -72,7 +72,7 @@ class SafeStreamHttpClient
      */
     public function __construct(array $args = [])
     {
-        $this->protocol = isset($args['protocol']) ? $args['protocol'] : "http";
+        $this->protocol = isset($args['protocol']) ? $args['protocol'] : "https";
         $this->hostName = isset($args['hostName']) ? $args['hostName'] : "api.safestream.com";
         $this->version = isset($args['version']) ? $args['version'] : "0.1";
         $this->apiKey = isset($args['apiKey']) ? $args['apiKey'] : "apiKey";
