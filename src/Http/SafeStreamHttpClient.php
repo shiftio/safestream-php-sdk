@@ -79,7 +79,7 @@ class SafeStreamHttpClient
     {
         $this->protocol = isset($args['protocol']) ? $args['protocol'] : "https";
         $this->hostName = isset($args['hostName']) ? $args['hostName'] : "api.safestream.com";
-        $this->version = isset($args['version']) ? $args['version'] : "0.1";
+        $this->version = isset($args['version']) ? $args['version'] : "1.0";
         $this->apiKey = isset($args['apiKey']) ? $args['apiKey'] : "apiKey";
         $this->clientId = isset($args['clientId']) ? $args['clientId'] : "clientId";
         $this->client = new GuzzleHttp\Client([ 'base_uri' => $this->getRootUrl() ]);

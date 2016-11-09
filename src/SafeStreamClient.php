@@ -40,7 +40,7 @@ class SafeStreamClientException extends CustomException {}
  */
 class SafeStreamClient
 {
-    const VERSION = '0.1.0';
+    const VERSION = '1.2.1';
 
     public $args;
     private $watermark;
@@ -49,7 +49,7 @@ class SafeStreamClient
     public function __construct(array $args = [])
     {
         if(!isset($args['apiKey'])) {
-            throw new SafeStreamClientException("An API Key is require to create a 
+            throw new SafeStreamClientException("An API Key is require to create a
             SafeStreamClient");
         }
 
