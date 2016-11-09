@@ -46,10 +46,10 @@ class Animation
     public $type = "MOVE";
 
     //The relative x coordinate as a percentage of the video width.
-    public $to_x = 1;
+    public $toX = 1;
 
     //The relative y coordinate as a percentage of the video height.
-    public $to_y = 1;
+    public $toY = 1;
 
     // The start time of the animation in seconds
     public $startTime = 0.0;
@@ -61,8 +61,8 @@ class Animation
 
     public function __construct(array $args = [])
     {
-        if(isset($args['to_x'])) $this->endAtXPosition($args['to_x']);
-        if(isset($args['to_y'])) $this->endAtYPosition($args['to_y']);
+        if(isset($args['toX'])) $this->endAtXPosition($args['toX']);
+        if(isset($args['toY'])) $this->endAtYPosition($args['toY']);
         if(isset($args['startTime'])) $this->withStartTime($args['startTime']);
         if(isset($args['endTime'])) $this->withEndTime($args['endTime']);
     }
@@ -73,7 +73,7 @@ class Animation
                 throw new AnimationException(sprintf($this->numberBetweenExceptionMessage, "x", 0, 1));
             }
 
-            $this->to_x = $x;
+            $this->toX = $x;
         }
 
         return $this;
@@ -85,7 +85,7 @@ class Animation
                 throw new AnimationException(sprintf($this->numberBetweenExceptionMessage, "y", 0, 1));
             }
 
-            $this->to_y = $y;
+            $this->toY = $y;
         }
 
         return $this;

@@ -317,7 +317,7 @@ class WatermarkConfiguration {
     }
 
     public function move($to_x, $to_y, $startTime, $endTime) {
-        $animation = new Animation(["to_x" => $to_x, "to_y" => $to_y, "startTime" => $startTime, "endTime" => $endTime]);
+        $animation = new Animation(["toX" => $toX, "toY" => $toY, "startTime" => $startTime, "endTime" => $endTime]);
         $this->animation = $animation;
 
         return $this;
