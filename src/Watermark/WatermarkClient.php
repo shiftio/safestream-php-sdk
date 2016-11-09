@@ -129,7 +129,8 @@ class WatermarkClient extends SafeStreamHttpClient
                 $startTime = round(microtime(true) * 1000);
                 $ready = false;
                 while (!$ready && (round(microtime(true) * 1000) - $startTime) < $timeout) {
-                    $pollResult = $this->request($watermarkResult->href, null, "GET");
+                    $pollResult = $this->request($watermarkResult->href, null, "GET", True);
+
                     if ($pollResult->status == "READY") {
                         $ready = true;
                         return $pollResult;
@@ -138,7 +139,7 @@ class WatermarkClient extends SafeStreamHttpClient
                     sleep(3);
                 }
 
-                throw new WatermarkingException("The video has not completed watermarking before the 
+                throw new WatermarkingException("The video has not completed watermarking before the
             timeout");
             } else {
                 return $watermarkResult;

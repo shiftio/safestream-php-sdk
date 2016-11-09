@@ -50,9 +50,13 @@ class VideoClient extends SafeStreamHttpClient
         parent::__construct($args);
     }
 
-    public function createFromSourceUrl($sourceUrl, $waitForIngest = 0) {
+    public function createFromSourceUrl($sourceUrl, $key, $waitForIngest = 0) {
         $video = new Video();
         $video->withSourceUrl($sourceUrl);
+
+        if(!is_null($key)) {
+            $video->withKey($key);
+        }
 
         return $this->create($video, $waitForIngest);
     }

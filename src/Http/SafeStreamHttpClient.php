@@ -55,6 +55,11 @@ class SafeStreamHttpClient
     private $version;
 
     /**
+     * SafeStream Client ID used to identify the user authenticating to the API
+     */
+    private $clientId;
+
+    /**
      * SafeStream API key. This is required in order to retrieve an auth token and make ANY subsequent requests to the SafeStream API
      */
     private $apiKey;
@@ -76,7 +81,9 @@ class SafeStreamHttpClient
         $this->hostName = isset($args['hostName']) ? $args['hostName'] : "api.safestream.com";
         $this->version = isset($args['version']) ? $args['version'] : "0.1";
         $this->apiKey = isset($args['apiKey']) ? $args['apiKey'] : "apiKey";
+        $this->clientId = isset($args['clientId']) ? $args['clientId'] : "clientId";
         $this->client = new GuzzleHttp\Client([ 'base_uri' => $this->getRootUrl() ]);
+        $this->getAuthToken();
     }
 
     /**
@@ -85,7 +92,7 @@ class SafeStreamHttpClient
      * @return mixed The JSON decoded response
      */
     public function get($path) {
-        return $this->request($path, null, "GET");
+        return $this->request($path, null, "GET", True);
     }
 
     /**
@@ -94,7 +101,7 @@ class SafeStreamHttpClient
      * @return mixed The JSON decoded response
      */
     public function post($path, $body) {
-        return $this->request($path, $body, "POST");
+        return $this->request($path, $body, "POST", True);
     }
 
     /**
@@ -107,12 +114,12 @@ class SafeStreamHttpClient
      * @throws SafeStreamHttpException
      * @throws SafeStreamHttpThrottleException
      */
-    public function request($path, $body, $method)
+    public function request($path, $body, $method, $retry = False)
     {
         $requestOptions = [
             'headers' => [
                 'Content-Type' => 'application/json',
-                'Authorization'     => 'Bearer ' . $this->getAuthToken()
+                'Authorization'     => 'Bearer ' . $this->authToken
         ]];
 
         if(!is_null($body)) {
@@ -123,10 +130,16 @@ class SafeStreamHttpClient
 
         try {
             $response = $this->client->request($method, $path, $requestOptions);
-
             return json_decode($response->getBody());
         } catch(GuzzleHttp\Exception\RequestException $e) {
-            $this->handleExceptionResult($e);
+            $response_code = $e->getResponse()->getStatusCode();
+
+            if($response_code == 401 && $retry) {
+                $this->getAuthToken();
+                $this->request($path, $body, $method, False);
+            } else {
+                $this->handleExceptionResult($e);
+            }
         }
     }
 
@@ -142,12 +155,14 @@ class SafeStreamHttpClient
      */
     public function getAuthToken() {
         try {
-            $response = $this->client->request('POST', "token", ['headers' => [
-                'Content-Type' => 'application/json',
+            $response = $this->client->request('GET', "authenticate/accessToken", ['headers' => [
+                'x-api-client-id' => $this->clientId,
                 'x-api-key' => $this->apiKey
             ]]);
 
-            return json_decode($response->getBody())->token;
+            $this->authToken = json_decode($response->getBody())->token;
+
+            return $this->authToken;
         } catch (GuzzleHttp\Exception\RequestException $e) {
             $this->handleExceptionResult($e);
         }
