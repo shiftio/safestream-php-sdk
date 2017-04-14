@@ -64,6 +64,12 @@ class SafeStreamHttpClient
      */
     private $apiKey;
 
+    /**
+     * SafeStream Domain ID used to identify the domain that the user request should be constrained to. This is important for users who 
+     * have access to many domains. For these users requests to the API must specify thich domain the request context pertains to.
+     */
+    private $domainId;
+
     private static $authToken;
 
     /**
@@ -82,6 +88,7 @@ class SafeStreamHttpClient
         $this->version = isset($args['version']) ? $args['version'] : "1.0";
         $this->apiKey = isset($args['apiKey']) ? $args['apiKey'] : "apiKey";
         $this->clientId = isset($args['clientId']) ? $args['clientId'] : "clientId";
+        $this->domainId = isset($args['domainId']) ? $args['domainId'] : NULL;
         $this->client = new GuzzleHttp\Client([ 'base_uri' => $this->getRootUrl() ]);
         $this->getAuthToken();
     }
@@ -121,6 +128,10 @@ class SafeStreamHttpClient
                 'Content-Type' => 'application/json',
                 'Authorization'     => 'Bearer ' . $this->authToken
         ]];
+
+        if(!empty($this->domainId)) {
+            $requestOptions['headers']['X-API-Domain'] = $this->domainId;
+        }
 
         if(!is_null($body)) {
             $body = (object) array_filter((array) $body); // Remove nulls
