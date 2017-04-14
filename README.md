@@ -30,11 +30,15 @@ composer.phar update
  
 ## Getting Started
 #### SafeStreamClient
-First, you'll need to instantiate a new SafeStreamClient. Through the client, you can access all of SafeStream's functionality. Creating the client is simple. You only need your API key.
+First, you'll need to instantiate a new SafeStreamClient. Through the client, you can access all of SafeStream's functionality. Creating the client is simple.
 ```php
-$safeStreamClient = new \SafeStream\SafeStreamClient(["apiKey" => "YOUR API KEY"]);
+$safeStreamClient = new \SafeStream\SafeStreamClient(["apiKey" => "YOUR API KEY", "clientId" => "YOUR CLIENT ID"]);
  ```
  
+Some of our API integrations span multiple accounts. The SafeStream API allows a single API key pair to access multiple accounts through the domain ID. If you have multiple accounts you can create the SafeStream client with the domain ID. This way all requests that you make will be within the context of the account you intend them to be. Here's how:
+```php
+$safeStreamClient = new \SafeStream\SafeStreamClient(["apiKey" => "YOUR API KEY", "clientId" => "YOUR CLIENT ID", "domainId" => "YOUR DOMAIN ID"]);
+```
 #### Videos
 Before SafeStream can watermark your videos you first need create them. When you create a video in SafeStream your video gets downloaded and encoded so it is ready for your future watermarking requests. Creating a video typically takes half of real time. Meaning that a 5 minute video would take 2-3 minutes.
 
