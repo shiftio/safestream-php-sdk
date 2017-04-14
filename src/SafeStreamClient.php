@@ -49,10 +49,15 @@ class SafeStreamClient
     public function __construct(array $args = [])
     {
         if(!isset($args['apiKey'])) {
-            throw new SafeStreamClientException("An API Key is require to create a
+            throw new SafeStreamClientException("An API Key is required to create a
             SafeStreamClient");
         }
 
+        if(!isset($args['clientId'])) {
+            throw new SafeStreamClientException("An Client ID is required to create a
+            SafeStreamClient");
+        }
+        
         $this->args = $args;
     }
 
