@@ -244,5 +244,11 @@ $watermarkConfiguration2 = new \SafeStream\Watermark\WatermarkConfiguration([
 
 ```
 
+## Tests
+```
+export SAFESTREAM_CLIENT_ID=YOUR_CLIENT_ID
+export SAFESTREAM_API_KEY=YOUR_API_KEY
+phpunit tests/SafeStreamClientTests.php 
+```
 
 ##### [License](LICENSE.md)
